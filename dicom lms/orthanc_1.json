@@ -1,0 +1,157 @@
+{
+  "Name": "MedicalLMS-Orthanc",
+  "StorageDirectory": "/var/lib/orthanc/db",
+  "IndexDirectory": "/var/lib/orthanc/db",
+  "StorageCompression": true,
+  "MaximumStorageSize": 0,
+  "MaximumPatientCount": 0,
+
+  "HttpServerEnabled": true,
+  "HttpPort": 8042,
+  "HttpThreadsCount": 50,
+  "HttpTimeout": 60,
+  "HttpRequestTimeout": 30,
+  "HttpVerbose": false,
+  "HttpCompressionEnabled": true,
+  "HttpCacheSize": 128,
+  "KeepAlive": true,
+  "TcpNoDelay": true,
+
+  "DicomServerEnabled": true,
+  "DicomAet": "MEDICALLMS",
+  "DicomPort": 4242,
+  "DicomThreadsCount": 4,
+  "DicomAssociationTimeout": 30,
+  "DicomScuTimeout": 10,
+  "DicomScpTimeout": 30,
+
+  "RemoteAccessAllowed": true,
+  "AuthenticationEnabled": true,
+  "RegisteredUsers": {
+    "moodle": "moodle123!",
+    "admin": "admin123!",
+    "viewer": "viewer123!"
+  },
+
+  "CorsEnabled": true,
+  "CorsOrigins": "*",
+
+  "SslEnabled": false,
+  "SslCertificate": "",
+  "SslMinimumProtocolVersion": 4,
+  "SslVerifyPeers": false,
+
+  "DicomModalities": {
+    "sample": [ "STORESCP", "localhost", 2000 ]
+  },
+
+  "OrthancPeers": {
+  },
+
+  "PatientsAllowDuplicates": true,
+  "StudiesAllowDuplicates": true,
+  "SeriesAllowDuplicates": true,
+  "InstancesAllowDuplicates": true,
+
+  "LogExportedResources": true,
+  "LogFile": "/var/log/orthanc/orthanc.log",
+  "LogLevel": "default",
+
+  "JobsHistorySize": 10,
+  "SaveJobs": true,
+
+  "OverwriteInstances": false,
+  "DefaultEncoding": "Latin1",
+  "AcceptedTransferSyntaxes": [ "1.2.840.10008.1.*" ],
+  "DeflatedTransferSyntaxAccepted": true,
+  "JpegTransferSyntaxAccepted": true,
+  "Jpeg2000TransferSyntaxAccepted": true,
+  "JpegLosslessTransferSyntaxAccepted": true,
+  "JpipTransferSyntaxAccepted": true,
+  "Mpeg2TransferSyntaxAccepted": true,
+  "RleTransferSyntaxAccepted": true,
+
+  "UnknownSopClassAccepted": false,
+  "DicomScuPreferredTransferSyntax": "1.2.840.10008.1.2.1",
+
+  "UserMetadata": {
+    "PatientBirthDate": 1000,
+    "StudyDescription": 1001,
+    "SeriesDescription": 1002
+  },
+
+  "UserContentType": {
+    "dicom": 1024,
+    "dicom-web": 1025
+  },
+
+  "StableAge": 60,
+  "StrictAetComparison": false,
+  "StoreMD5ForAttachments": true,
+
+  "LimitFindInstances": 0,
+  "LimitFindResults": 0,
+  "LimitJobs": 10,
+  "LimitFindAnswers": 0,
+
+  "LogCategories": {
+    "dicom": "default",
+    "generic": "default",
+    "http": "default",
+    "sqlite": "default",
+    "dicom-web": "default"
+  },
+
+  "Plugins": [
+    "/usr/share/orthanc/plugins",
+    "/usr/local/share/orthanc/plugins"
+  ],
+
+  "DicomWeb": {
+    "Enable": true,
+    "Root": "/dicom-web/",
+    "EnableMetadata": true,
+    "StudiesMetadata": "MainDicomTags",
+    "SeriesMetadata": "MainDicomTags",
+    "InstancesMetadata": "MainDicomTags",
+    "QidoRoot": "/dicom-web",
+    "WadoRoot": "/dicom-web",
+    "Ssl": false,
+    "StowMaxInstances": 10,
+    "StowMaxSize": 100,
+    "Host": "localhost",
+    "Port": 8042,
+    "HttpHeaders": {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type, Authorization"
+    }
+  },
+
+  "Worklists": {
+    "Enable": false,
+    "Database": "/var/lib/orthanc/worklists"
+  },
+
+  "PostgreSQL": {
+    "EnableIndex": false,
+    "EnableStorage": false,
+    "Host": "localhost",
+    "Port": 5432,
+    "Database": "orthanc",
+    "Username": "orthanc",
+    "Password": "orthanc",
+    "EnableSsl": false,
+    "MaximumConnectionRetries": 10,
+    "ConnectionRetryInterval": 5,
+    "IndexConnectionsCount": 1,
+    "StorageConnectionsCount": 1,
+    "PrepareIndex": true
+  },
+
+  "WebViewer": {
+    "CachePath": "/var/lib/orthanc/cache",
+    "CacheSize": 100,
+    "Threads": 4
+  }
+}

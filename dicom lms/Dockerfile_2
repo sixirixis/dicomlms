@@ -1,0 +1,48 @@
+FROM node:18-alpine as builder
+
+# Install system dependencies
+RUN apk add --no-cache git python3 make g++
+
+# Clone OHIF Viewer repository
+WORKDIR /usr/src
+RUN git clone --branch v3.7.1 --depth 1 https://github.com/OHIF/Viewers.git ohif-viewer
+
+# Build OHIF Viewer
+WORKDIR /usr/src/ohif-viewer
+RUN yarn config set network-timeout 600000 && \
+    yarn install && \
+    yarn run build
+
+# Production image
+FROM node:18-alpine
+
+# Set working directory
+WORKDIR /usr/src/app
+
+# Copy build output from builder stage
+COPY --from=builder /usr/src/ohif-viewer/platform/app/dist /usr/src/app/dist
+
+# Install serve to host the built application
+RUN npm install -g serve@14 && \
+    mkdir -p /usr/src/app/config
+
+# Copy custom configuration
+COPY config/. /usr/src/app/config/
+COPY docker-entrypoint.sh /usr/src/app/
+RUN chmod +x /usr/src/app/docker-entrypoint.sh
+
+# Expose port for web access
+EXPOSE 3000
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=10s --retries=3 \
+    CMD wget -q -O /dev/null http://localhost:3000 || exit 1
+
+# Set environment variable
+ENV PORT=3000
+ENV OHIF_STATIC_ROOT=/usr/src/app/dist
+ENV APP_CONFIG=/usr/src/app/config/default.js
+
+# Start the application
+ENTRYPOINT ["/usr/src/app/docker-entrypoint.sh"]
+CMD ["serve", "-C", "-s", "dist", "-l", "3000"]

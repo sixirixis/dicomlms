@@ -1,0 +1,16 @@
+Component,Technology,Version,Purpose,Port,Status
+Moodle LMS,PHP/Apache,4.5,Learning Management System,80/443,✅ Complete
+PostgreSQL,Database,15,Primary database,5432,✅ Complete
+Orthanc Server,C++/Python,24.5.3,DICOM PACS backend,8042/4242,✅ Complete
+OHIF Viewer,React/JavaScript,3.7.1,DICOM medical imaging viewer,3000,✅ Complete
+Pathology Viewer,Node.js/Express,1.0.0,Whole slide imaging viewer,8080,✅ Complete
+Unified Viewer,React/TypeScript,1.0.0,Integrated medical viewer,3001,✅ Complete
+Nginx Proxy,Nginx,Latest,Reverse proxy and SSL,80/443,✅ Complete
+Redis Cache,Redis,7,Session and data caching,6379,✅ Complete
+Medical Imaging Plugin,PHP/Moodle,1.0.0,Moodle activity module,N/A,✅ Complete
+Docker Compose,Docker,Latest,Container orchestration,N/A,✅ Complete
+Deployment Scripts,Bash,1.0.0,Automated deployment,N/A,✅ Complete
+Backup System,Bash/Scripts,1.0.0,Data backup and restore,N/A,✅ Complete
+Monitoring Tools,Shell Scripts,1.0.0,Health monitoring,N/A,✅ Complete
+SSL Certificates,OpenSSL,Latest,HIPAA-compliant encryption,N/A,✅ Complete
+Documentation,Markdown,1.0.0,User and admin guides,N/A,✅ Complete

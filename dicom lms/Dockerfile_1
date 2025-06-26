@@ -1,0 +1,44 @@
+FROM orthancteam/orthanc:24.5.3
+
+# Install additional dependencies for DICOM-Web and optimizations
+USER root
+
+RUN apt-get update && apt-get install -y \
+    curl \
+    jq \
+    python3 \
+    python3-pip \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Orthanc plugins
+RUN pip3 install requests pillow
+
+# Create necessary directories
+RUN mkdir -p /var/lib/orthanc/db \
+    && mkdir -p /etc/orthanc \
+    && mkdir -p /var/log/orthanc \
+    && chown -R orthanc:orthanc /var/lib/orthanc \
+    && chown -R orthanc:orthanc /var/log/orthanc
+
+# Copy custom Orthanc configuration
+COPY orthanc.json /etc/orthanc/orthanc.json
+COPY docker-entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
+# Copy DICOM test data loader script
+COPY load-test-data.py /usr/local/bin/
+RUN chmod +x /usr/local/bin/load-test-data.py
+
+# Switch back to orthanc user
+USER orthanc
+
+# Expose DICOM and HTTP ports
+EXPOSE 4242 8042
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
+    CMD curl -f http://localhost:8042/system || exit 1
+
+# Start Orthanc with custom configuration
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
+CMD ["Orthanc", "/etc/orthanc/orthanc.json"]
